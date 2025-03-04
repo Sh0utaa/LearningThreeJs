@@ -19,8 +19,7 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   1000
 );
-camera.position.z = 3;
-camera.position.y = 1;
+camera.position.set(2, 2, 5);
 
 // Renderer
 const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -32,45 +31,32 @@ renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 // Cube Geometry and Material
-const geometry = new THREE.BoxGeometry();
-const material = new THREE.MeshStandardMaterial({ color: "#FF0000" });
-const cube = new THREE.Mesh(geometry, material);
+const cubeGeometry = new THREE.BoxGeometry();
+const cubeMaterial = new THREE.MeshStandardMaterial({ color: "#FF0000" });
+const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+cube.position.set(-1.5, 0.5, 0); // Move the cube left
 cube.castShadow = true;
 scene.add(cube);
 
-// Load the Rubik's Cube model
-// const loader = new GLTFLoader();
-// let rubiksCube;
+const sphereGeometry = new THREE.SphereGeometry(0.75, 32, 32);
+const sphereMaterial = new THREE.MeshStandardMaterial({ color: "#ef8354"})
+const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+sphere.position.set(1, 0.5, 0); // Move the sphere right
+sphere.castShadow = true;
+scene.add(sphere)
 
-// loader.load(
-//     '/models/scene.gltf',
-//     (gltf) => {
-//         rubiksCube = gltf.scene;
-
-//         // Enable shadows for the model
-//         rubiksCube.traverse((child) => {
-//             if(child.isMesh) {
-//                 child.castShadow = true;
-//                 child.receiveShadow = true;
-//             }
-//         });
-
-//         scene.add(rubiksCube);
-
-//         rubiksCube.scale.set(1,1,1);
-//         rubiksCube.position.y = 0;
-//     },
-//     undefined,
-//     (error) => {
-//         console.error("Error loading the model: ", error)
-//     }
-// )
+const coneGeometry = new THREE.ConeGeometry();
+const coneMaterial = new THREE.MeshStandardMaterial({ color: "#fffe50"})
+const cone = new THREE.Mesh(coneGeometry, coneMaterial);
+cone.position.set(4, 0.5, 0); // Move the sphere right
+cone.castShadow = true;
+scene.add(cone)
 
 // Lights
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 scene.add(ambientLight);
 
-// Directional Light (main light source for shadows)
+// Directional Light (for shadows)
 const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
 directionalLight.position.set(5, 5, 5);
 directionalLight.castShadow = true;
