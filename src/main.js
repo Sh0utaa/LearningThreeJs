@@ -73,17 +73,17 @@ const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
 
-// Access the device camera
+// Access the device camera (back-facing)
 const video = document.createElement('video');
 video.autoplay = true;
 
-navigator.mediaDevices.getUserMedia({ video: true })
-.then((stream) => {
-  video.srcObject = stream;
-})
-.catch((error) => {
-  console.error('Error accessing the camera:', error);
-});
+navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+  .then((stream) => {
+    video.srcObject = stream;
+  })
+  .catch((error) => {
+    console.error('Error accessing the camera:', error);
+  });
 
 // Create a video texture
 const videoTexture = new THREE.VideoTexture(video);
