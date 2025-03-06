@@ -73,6 +73,26 @@ const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
 
+// Access the device camera
+const video = document.createElement('video');
+video.autoplay = true;
+
+navigator.mediaDevices.getUserMedia({ video: true })
+.then((stream) => {
+  video.srcObject = stream;
+})
+.catch((error) => {
+  console.error('Error accessing the camera:', error);
+});
+
+// Create a video texture
+const videoTexture = new THREE.VideoTexture(video);
+videoTexture.minFilter = THREE.LinearFilter;
+videoTexture.magFilter = THREE.LinearFilter;
+videoTexture.format = THREE.RGBFormat;
+
+scene.background = videoTexture;
+
 // Animation Loop
 function animate() {
   requestAnimationFrame(animate);
@@ -80,14 +100,9 @@ function animate() {
   // Update controls
   controls.update();
 
-  // Rotate the cube
-  cube.rotation.x += 0.01;
-  cube.rotation.y += 0.01;
-
   // Render the scene
   renderer.render(scene, camera);
 }
-
 animate();
 
 // Handle Window Resize
