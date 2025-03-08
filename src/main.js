@@ -1,7 +1,5 @@
 import * as THREE from 'three';
 import './style.css';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 // Scene
 const scene = new THREE.Scene();
@@ -39,18 +37,18 @@ cube.castShadow = true;
 scene.add(cube);
 
 const sphereGeometry = new THREE.SphereGeometry(0.75, 32, 32);
-const sphereMaterial = new THREE.MeshStandardMaterial({ color: "#ef8354"})
+const sphereMaterial = new THREE.MeshStandardMaterial({ color: "#ef8354" });
 const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
 sphere.position.set(1, 0.5, 0); // Move the sphere right
 sphere.castShadow = true;
-scene.add(sphere)
+scene.add(sphere);
 
 const coneGeometry = new THREE.ConeGeometry();
-const coneMaterial = new THREE.MeshStandardMaterial({ color: "#fffe50"})
+const coneMaterial = new THREE.MeshStandardMaterial({ color: "#fffe50" });
 const cone = new THREE.Mesh(coneGeometry, coneMaterial);
-cone.position.set(4, 0.5, 0); // Move the sphere right
+cone.position.set(4, 0.5, 0); // Move the cone right
 cone.castShadow = true;
-scene.add(cone)
+scene.add(cone);
 
 // Lights
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
@@ -68,10 +66,38 @@ directionalLight.shadow.mapSize.height = 1024;
 directionalLight.shadow.camera.near = 0.5;
 directionalLight.shadow.camera.far = 20;
 
-// OrbitControls
-const controls = new OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
-controls.dampingFactor = 0.05;
+// Gyroscopic Controls
+let alpha = 0, beta = 0, gamma = 0;
+
+window.addEventListener('deviceorientation', (event) => {
+  alpha = event.alpha; // Rotation around the Z-axis (0 to 360 degrees)
+  beta = event.beta;   // Rotation around the X-axis (-180 to 180 degrees)
+  gamma = event.gamma; // Rotation around the Y-axis (-90 to 90 degrees)
+
+  // Update camera position based on device orientation
+  camera.position.x = gamma * 0.1; // Adjust sensitivity as needed
+  camera.position.y = beta * 0.1;  // Adjust sensitivity as needed
+  camera.lookAt(scene.position);    // Make the camera look at the scene center
+});
+
+// Zoom Controls (DeviceMotionEvent)
+let initialZ = null;
+
+window.addEventListener('devicemotion', (event) => {
+  const acceleration = event.accelerationIncludingGravity;
+
+  if (!initialZ) {
+    // Set the initial Z value on first motion event
+    initialZ = acceleration.z;
+  }
+
+  // Calculate the change in Z (zoom factor)
+  const deltaZ = acceleration.z - initialZ;
+
+  // Adjust camera position.z based on deltaZ
+  camera.position.z = 5 + deltaZ * 0.1; // Adjust sensitivity as needed
+  camera.lookAt(scene.position); // Ensure the camera keeps looking at the scene center
+});
 
 // Access the device camera (back-facing)
 const video = document.createElement('video');
@@ -96,11 +122,6 @@ scene.background = videoTexture;
 // Animation Loop
 function animate() {
   requestAnimationFrame(animate);
-
-  // Update controls
-  controls.update();
-
-  // Render the scene
   renderer.render(scene, camera);
 }
 animate();
