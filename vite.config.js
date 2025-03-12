@@ -6,7 +6,7 @@ export default defineConfig({
     port: 3000, // Optional: Specify a port
     
     allowedHosts: [
-      "1e99-149-3-101-219.ngrok-free.app",
+      "fda9-91-151-136-214.ngrok-free.app",
     ]
   },
 });
