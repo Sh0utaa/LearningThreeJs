@@ -1,4 +1,5 @@
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
+import { clearScene } from "./utils.js"
 
 function loadModel(scene, onModelLoaded) {
     const loader = new GLTFLoader();

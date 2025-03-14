@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { loadModel } from './loader.js';
+import { clearScene } from "./utils.js"
 
 // Scene
 const scene = new THREE.Scene();
