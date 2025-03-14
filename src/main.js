@@ -8,23 +8,21 @@ const sizes = {
     height: window.innerHeight
 }
 
-const light = new THREE.AmbientLight(0xffffff, 1.0)
-scene.add(light)
+const light = new THREE.AmbientLight(0xffffff, 1);
+// light.position.set(1, 1, 1);
+scene.add(light);
 
-const cubeGeometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
-const cubeMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
-const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+const geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+const material = new THREE.MeshStandardMaterial({ color: 0xffffff * Math.random() });
+const cube = new THREE.Mesh(geometry, material);
+// cube.position.set(0, 0, 2)
 scene.add(cube)
 
-// const cubeGeometry2 = new THREE.BoxGeometry(0.5, 0.5, 0.5);
-// const cubeMaterial2 = new THREE.MeshStandardMaterial({ color: 0x0000ff });
-// const cube2 = new THREE.Mesh(cubeGeometry2, cubeMaterial2);
-// scene.add(cube2)
-
-const sphereGeometry = new THREE.SphereGeometry( 15, 32, 16 ); 
-const sphereMaterial = new THREE.MeshBasicMaterial( { color: 0xffff00 } ); 
-const sphere = new THREE.Mesh( sphereGeometry, sphereMaterial );
-scene.add( sphere );
+const sphereGeometry = new THREE.SphereGeometry(0.35, 64, 64);
+const sphereMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff * Math.random() });
+const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+// sphere.position.set(2, 0, 2)
+scene.add(sphere);
 
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 1000);
 camera.position.set(0, 2, 5);
@@ -37,6 +35,7 @@ const renderer = new THREE.WebGLRenderer({
 
 });
 
+
 renderer.xr.addEventListener('sessionstart', () => {
     const session = renderer.xr.getSession();
 
@@ -44,7 +43,7 @@ renderer.xr.addEventListener('sessionstart', () => {
         const viewerPose = new XRRigidTransform({ x: 0, y: 0, z: -1 });
 
         cube.position.set(viewerPose.position.x, viewerPose.position.y, viewerPose.position.z);
-
+        
         sphere.position.set(viewerPose.position.x, viewerPose.position.y + 1, viewerPose.position.z);
     });
 })
@@ -53,11 +52,13 @@ renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.xr.enabled = true
 
+document.body.appendChild(renderer.domElement);
 document.body.appendChild(ARButton.createButton(renderer));
 
 renderer.setAnimationLoop(render)
 
 function render() {
+    // cube.rotation.y += 0.01;
     renderer.render(scene, camera)
 }
 
