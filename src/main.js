@@ -8,7 +8,11 @@ document.getElementById("container3D").appendChild(renderer.domElement);
 document.getElementById("container3D").appendChild(ARButton.createButton(renderer));
 
 setupLights(scene);
-loadModel(scene);
+
+loadModel(scene, (object) => {
+    console.log("Laferrari loaded:", object);
+});
+
 const composer = setupPostProcessing(renderer, scene, camera);
 
 renderer.setAnimationLoop(render);

@@ -1,6 +1,6 @@
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
 
-function loadModel(scene) {
+function loadModel(scene, onModelLoaded) {
     const loader = new GLTFLoader();
     let object;
 
@@ -9,7 +9,6 @@ function loadModel(scene) {
         function (gltf) {
             object = gltf.scene;
 
-            object.scale.set(0.25, 0.25, 0.25);
             object.traverse((child) => {
                 if (child.isMesh) {
                     child.castShadow = true;
@@ -20,6 +19,9 @@ function loadModel(scene) {
                 }
             })
             scene.add(object);
+
+            // Call the callback with the loaded object
+            if (onModelLoaded) onModelLoaded(object);
         },
         function (xhr) {
             console.log((xhr.loaded / xhr.total * 100) + `% loaded`);

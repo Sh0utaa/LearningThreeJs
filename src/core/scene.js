@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { loadModel } from './loader.js';
 
 // Scene
 const scene = new THREE.Scene();
@@ -23,14 +24,26 @@ const renderer = new THREE.WebGLRenderer({
 
 renderer.xr.addEventListener('sessionstart', () => {
     const session = renderer.xr.getSession();
-    object.scale.set(0.25, 0.25, 0.25);
 
-    session.requestReferenceSpace('local').then(() => {
-        const viewerPose = new XRRigidTransform({ x: 0, y: -0.5, z: -1 });
+    loadModel(scene, (object) => {
+        console.log("Laferrari loaded:", object);
 
-        object.position.set(viewerPose.position.x, viewerPose.position.y, viewerPose.position.z);
+        // Ensure we scale and position the object after the model is loaded
+        object.scale.set(0.25, 0.25, 0.25); // Set the scale
+
+        // Request the XR session's reference space
+        session.requestReferenceSpace('local').then(() => {
+            const viewerPose = new XRRigidTransform({ x: 0, y: -0.5, z: -1 });
+
+            // Set the position of the object based on the viewer's position
+            object.position.set(viewerPose.position.x, viewerPose.position.y, viewerPose.position.z);
+
+            // Make sure the object is added to the scene at this point
+            scene.add(object);
+        });
     });
-})
+});
+
 
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(window.devicePixelRatio);
