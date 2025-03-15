@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { loadModel } from './loader.js';
 import { clearScene } from "./utils.js"
 import { setupLights } from './lights.js'
+import { setupARControls } from './controls.js';
 
 // Scene
 const scene = new THREE.Scene();
@@ -32,6 +33,8 @@ renderer.xr.addEventListener('sessionstart', () => {
 
     loadModel(scene, (object) => {
         console.log("Laferrari loaded:", object);
+
+        setupARControls(object);
 
         // Ensure we scale and position the object after the model is loaded
         object.scale.set(0.25, 0.25, 0.25); // Set the scale

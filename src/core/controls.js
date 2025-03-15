@@ -27,4 +27,9 @@ function setupOrbitControls(camera, renderer) {
     return controls;
 }
 
-export { setupOrbitControls };
+
+function setupARControls(object) {
+    console.log(object);
+}
+
+export { setupOrbitControls, setupARControls };
