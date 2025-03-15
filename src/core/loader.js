@@ -6,7 +6,7 @@ function loadModel(scene, onModelLoaded) {
     let object;
 
     loader.load(
-        `models/ferrari_laferrari/scene.gltf`,
+        `/public/models/ferrari_laferrari/scene.gltf`,
         function (gltf) {
             object = gltf.scene;
 
