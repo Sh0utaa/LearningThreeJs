@@ -34,8 +34,6 @@ renderer.xr.addEventListener('sessionstart', () => {
     loadModel(scene, (object) => {
         console.log("Laferrari loaded:", object);
 
-        setupARControls(object);
-
         // Ensure we scale and position the object after the model is loaded
         object.scale.set(0.25, 0.25, 0.25); // Set the scale
 
@@ -48,6 +46,8 @@ renderer.xr.addEventListener('sessionstart', () => {
 
             // Make sure the object is added to the scene at this point
             scene.add(object);
+
+            setupARControls(object, this.ui);
         });
     });
 });

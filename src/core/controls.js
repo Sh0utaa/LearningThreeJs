@@ -1,4 +1,6 @@
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { scene, camera, renderer } from './core/scene.js';
+import { XRGestures } from '../libs/XRGestures';
 
 function setupOrbitControls(camera, renderer) {
     const controls = new OrbitControls(camera, renderer.domElement);
@@ -29,7 +31,11 @@ function setupOrbitControls(camera, renderer) {
 
 
 function setupARControls(object) {
-    console.log(object);
+    const gestures = new XRGestures(renderer)
+
+    gestures.addEventListener('tap', (ev) => {
+        console.log("tap");
+    })
 }
 
 export { setupOrbitControls, setupARControls };
