@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { loadModel } from './loader.js';
 import { clearScene } from "./utils.js"
+import { setupLights } from './lights.js'
 
 // Scene
 const scene = new THREE.Scene();
@@ -26,6 +27,9 @@ const renderer = new THREE.WebGLRenderer({
 renderer.xr.addEventListener('sessionstart', () => {
     const session = renderer.xr.getSession();
 
+    // Clear previous objects
+    clearScene(scene);
+
     loadModel(scene, (object) => {
         console.log("Laferrari loaded:", object);
 
@@ -44,6 +48,16 @@ renderer.xr.addEventListener('sessionstart', () => {
         });
     });
 });
+
+renderer.xr.addEventListener('sessionend', () => {
+    scene.clear();
+    setupLights(scene);
+    
+    camera.position.set(0, 2, 5);
+    camera.lookAt(new THREE.Vector3(0, 0, 0));
+    
+    loadModel(scene)
+})
 
 
 renderer.setSize(sizes.width, sizes.height);

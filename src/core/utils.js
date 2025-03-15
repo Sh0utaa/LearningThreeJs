@@ -1,22 +1,23 @@
 import * as THREE from 'three';
 
 function clearScene(scene) {
-    // Traverse all objects in the scene and remove them
-    while (scene.children.length > 0) {
-        const object = scene.children[0];
+    for (let i = scene.children.length - 1; i >= 0; i--) {
+        const object = scene.children[i];
+
+        if (object.isLight || object.isCamera) continue;
+
         scene.remove(object);
 
-        // If the object has children, remove them too (deep remove)
         if (object instanceof THREE.Mesh || object instanceof THREE.Group) {
             object.traverse((child) => {
                 if (child.isMesh) {
-                    child.geometry.dispose();  // Free up the geometry memory
-                    if (child.material.map) child.material.map.dispose();  // Free up the texture memory
-                    child.material.dispose();  // Free up material memory
+                    child.geometry.dispose();
+                    if (child.material.map) child.material.map.dispose();
+                    child.material.dispose();
                 }
             });
         }
     }
 }
 
-export { clearScene }
+export { clearScene };

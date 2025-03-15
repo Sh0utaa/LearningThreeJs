@@ -5,11 +5,15 @@ function loadModel(scene, onModelLoaded) {
     const loader = new GLTFLoader();
     let object;
 
+    // Clear previous objects
+    clearScene(scene);
+
     loader.load(
         `/models/ferrari_laferrari/scene.gltf`,
         function (gltf) {
             object = gltf.scene;
 
+            object.rotation.set(0, 0, 0);
             object.traverse((child) => {
                 if (child.isMesh) {
                     child.castShadow = true;
