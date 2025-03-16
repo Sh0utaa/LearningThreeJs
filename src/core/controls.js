@@ -1,5 +1,5 @@
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import { scene, camera, renderer } from './core/scene.js';
+import { scene, camera, renderer } from './scene';
 import { XRGestures } from '../libs/XRGestures';
 
 function setupOrbitControls(camera, renderer) {
