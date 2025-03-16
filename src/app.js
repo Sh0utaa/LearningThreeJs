@@ -4,6 +4,7 @@ import { setupLights } from './core/lights.js';
 import { loadModel } from './core/loader.js'
 import { setupPostProcessing } from "./core/renderer.js";
 import { setupOrbitControls } from './core/controls.js';
+import { setupARUI, updateARUI } from "./core/utils.js";
 
 document.getElementById("container3D").appendChild(renderer.domElement);
 document.getElementById("container3D").appendChild(ARButton.createButton(renderer));
@@ -19,6 +20,8 @@ const composer = setupPostProcessing(renderer, scene, camera);
 const controls = setupOrbitControls(camera, renderer);
 
 renderer.setAnimationLoop(render);
+
+
 
 function render() {
     composer.render();

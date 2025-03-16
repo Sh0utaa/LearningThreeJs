@@ -47,8 +47,8 @@ renderer.xr.addEventListener('sessionstart', () => {
             objects.cube.position.set(viewerPose.position.x - 0.5, viewerPose.position.y, viewerPose.position.z);
             objects.sphere.position.set(viewerPose.position.x + 0.5, viewerPose.position.y, viewerPose.position.z);
 
-            // Make sure the object is added to the scene at this point
-            scene.add(objects.model);
+            setupARUI(scene);
+            updateARUI("Loading ferrari data...");
         });
     });
 });
