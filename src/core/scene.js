@@ -2,7 +2,6 @@ import * as THREE from 'three';
 import { loadModel } from './loader.js';
 import { clearScene } from "./utils.js"
 import { setupLights } from './lights.js'
-import { setupARControls } from './controls.js';
 
 // Scene
 const scene = new THREE.Scene();
@@ -46,8 +45,6 @@ renderer.xr.addEventListener('sessionstart', () => {
 
             // Make sure the object is added to the scene at this point
             scene.add(object);
-
-            setupARControls(object, this.ui);
         });
     });
 });

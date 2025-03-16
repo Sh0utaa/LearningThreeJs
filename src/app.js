@@ -10,8 +10,8 @@ document.getElementById("container3D").appendChild(ARButton.createButton(rendere
 
 setupLights(scene);
 
-loadModel(scene, (object) => {
-    console.log("Laferrari loaded:", object);
+loadModel(scene, (objects) => {
+    console.log("Laferrari loaded:", objects);
 });
 
 const composer = setupPostProcessing(renderer, scene, camera);
