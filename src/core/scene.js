@@ -30,21 +30,25 @@ renderer.xr.addEventListener('sessionstart', () => {
     // Clear previous objects
     clearScene(scene);
 
-    loadModel(scene, (object) => {
-        console.log("Laferrari loaded:", object);
+    loadModel(scene, (objects) => {
+        console.log("Laferrari loaded:", objects);
 
         // Ensure we scale and position the object after the model is loaded
-        object.scale.set(0.25, 0.25, 0.25); // Set the scale
+        objects.model.scale.set(0.25, 0.25, 0.25); // Set the scale
+        objects.cube.scale.set(0.25, 0.25, 0.25)
+        objects.sphere.scale.set(0.25, 0.25, 0.25)
 
         // Request the XR session's reference space
         session.requestReferenceSpace('local').then(() => {
             const viewerPose = new XRRigidTransform({ x: 0, y: -0.5, z: -1 });
 
             // Set the position of the object based on the viewer's position
-            object.position.set(viewerPose.position.x, viewerPose.position.y, viewerPose.position.z);
+            objects.model.position.set(viewerPose.position.x, viewerPose.position.y, viewerPose.position.z);
+            objects.cube.position.set(viewerPose.position.x - 0.5, viewerPose.position.y, viewerPose.position.z);
+            objects.sphere.position.set(viewerPose.position.x + 0.5, viewerPose.position.y, viewerPose.position.z);
 
             // Make sure the object is added to the scene at this point
-            scene.add(object);
+            scene.add(objects.model);
         });
     });
 });

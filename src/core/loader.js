@@ -38,9 +38,15 @@ function loadModel(scene, onModelLoaded) {
             const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
             sphere.position.set(2, 0.5, 0);
             scene.add(sphere);
+            
+            const objects = {
+                model: object,
+                cube: cube,
+                sphere: sphere
+            };
 
             // Call the callback with the loaded object
-            if (onModelLoaded) onModelLoaded(object);
+            if (onModelLoaded) onModelLoaded(objects);
         },
         function (xhr) {
             console.log((xhr.loaded / xhr.total * 100) + `% loaded`);
