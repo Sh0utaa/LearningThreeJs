@@ -49,7 +49,6 @@ function loadModel(scene, onModelLoaded) {
             if (onModelLoaded) onModelLoaded(objects);
         },
         function (xhr) {
-            console.log((xhr.loaded / xhr.total * 100) + `% loaded`);
         },
         function (error) {
             console.error(error);

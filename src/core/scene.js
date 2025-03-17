@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { loadModel } from './loader.js';
 import { clearScene } from "./utils.js"
 import { setupLights } from './lights.js'
+import { TouchControls } from './touchcontrols.js';
 
 // Scene
 const scene = new THREE.Scene();
@@ -24,15 +25,19 @@ const renderer = new THREE.WebGLRenderer({
     powerPreference: 'high-performance'
 });
 
+// TouchControls
+const touchControl = new TouchControls(renderer, scene, camera);
+
 renderer.xr.addEventListener('sessionstart', () => {
     const session = renderer.xr.getSession();
+
+    // Enable Touch Controls when AR session starts
+    touchControl.setARSessionActive(true);
 
     // Clear previous objects
     clearScene(scene);
 
     loadModel(scene, (objects) => {
-        console.log("Laferrari loaded:", objects);
-
         // Ensure we scale and position the object after the model is loaded
         objects.model.scale.set(0.25, 0.25, 0.25); // Set the scale
         objects.cube.scale.set(0.25, 0.25, 0.25)
@@ -46,9 +51,6 @@ renderer.xr.addEventListener('sessionstart', () => {
             objects.model.position.set(viewerPose.position.x, viewerPose.position.y, viewerPose.position.z);
             objects.cube.position.set(viewerPose.position.x - 0.5, viewerPose.position.y, viewerPose.position.z);
             objects.sphere.position.set(viewerPose.position.x + 0.5, viewerPose.position.y, viewerPose.position.z);
-
-            setupARUI(scene);
-            updateARUI("Loading ferrari data...");
         });
     });
 });
@@ -57,6 +59,8 @@ renderer.xr.addEventListener('sessionend', () => {
     scene.clear();
     setupLights(scene);
     
+    // Disable Touch Controls when AR session starts
+    touchControl.setARSessionActive(false);
     camera.position.set(0, 2, 5);
     camera.lookAt(new THREE.Vector3(0, 0, 0));
     
