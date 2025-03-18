@@ -4,6 +4,8 @@ import { clearScene } from "./utils.js"
 import { setupLights } from './lights.js'
 import { TouchControls } from './touchcontrols.js';
 
+let overlayContent = document.getElementById("debug-info");
+
 // Scene
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x000000);
@@ -37,6 +39,8 @@ renderer.xr.addEventListener('sessionstart', () => {
     // Clear previous objects
     clearScene(scene);
 
+    overlayContent.classList.remove('hidden');
+
     loadModel(scene, (objects) => {
 
         objects.model.userData.isARObject = true;
@@ -63,6 +67,8 @@ renderer.xr.addEventListener('sessionstart', () => {
 renderer.xr.addEventListener('sessionend', () => {
     scene.clear();
     setupLights(scene);
+
+    overlayContent.classList.add('hidden');
     
     // Disable Touch Controls when AR session starts
     touchControl.setARSessionActive(false);
