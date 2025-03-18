@@ -34,19 +34,34 @@ h1 {
 }
 
 #debug-info {
-    width: 100%; /* Full width */
-    height: auto; /* Adjust height based on content */
-    background-color: rgba(0, 0, 0, 0.4); /* White background */
-    position: fixed; /* Fix it to the bottom of the screen */
-    bottom: 0; /* Position at the bottom */
-    left: 0; /* Align to the left */
-    padding: 10px; /* Add some padding */
-    z-index: 1000; /* Ensure it's on top of other elements */
+    width: 100%;
+    height: auto;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    padding: 10px;
+    z-index: 1000;
 }
 
 #debug-info p {
-    margin: 0; /* Remove default margin */
-    padding: 0; /* Remove default padding */
-    color: rgb(255, 255, 255); /* Ensure text is visible */
-    font-size: 14px; /* Adjust font size */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+
+    margin: 0; 
+    padding: 0;
+    color: rgb(255, 255, 255); 
+    font-size: 14px;
+    background-color: rgba(0, 0, 0, 0.75);
+}
+
+#exit-ar-button {
+    background-color: rgba(0, 0, 0, 0.75); /* Red background */
+    color: white; /* White text */
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px; /* Add some spacing */
 }

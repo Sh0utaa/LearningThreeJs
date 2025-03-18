@@ -33,6 +33,15 @@ const touchControl = new TouchControls(renderer, scene, camera);
 renderer.xr.addEventListener('sessionstart', () => {
     const session = renderer.xr.getSession();
 
+    document.getElementById('exit-ar-button').addEventListener('click', () => {
+        if (renderer.xr.isPresenting) {
+            const session = renderer.xr.getSession();
+            if (session) {
+                session.end(); // End the AR session
+            }
+        }
+    });
+
     // Enable Touch Controls when AR session starts
     touchControl.setARSessionActive(true);
 
