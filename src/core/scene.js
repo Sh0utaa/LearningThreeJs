@@ -38,6 +38,11 @@ renderer.xr.addEventListener('sessionstart', () => {
     clearScene(scene);
 
     loadModel(scene, (objects) => {
+
+        objects.model.userData.isARObject = true;
+        objects.cube.userData.isARObject = true;
+        objects.sphere.userData.isARObject = true;
+        
         // Ensure we scale and position the object after the model is loaded
         objects.model.scale.set(0.25, 0.25, 0.25); // Set the scale
         objects.cube.scale.set(0.25, 0.25, 0.25)
