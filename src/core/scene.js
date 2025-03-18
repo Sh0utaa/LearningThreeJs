@@ -5,6 +5,7 @@ import { setupLights } from './lights.js'
 import { TouchControls } from './touchcontrols.js';
 
 let overlayContent = document.getElementById("debug-info");
+let debugInfo = document.getElementById("debug-text");
 
 // Scene
 const scene = new THREE.Scene();
@@ -33,6 +34,8 @@ const touchControl = new TouchControls(renderer, scene, camera);
 renderer.xr.addEventListener('sessionstart', () => {
     const session = renderer.xr.getSession();
 
+    document.body.style.touchAction = 'none';
+
     document.getElementById('exit-ar-button').addEventListener('click', () => {
         if (renderer.xr.isPresenting) {
             const session = renderer.xr.getSession();
@@ -49,6 +52,7 @@ renderer.xr.addEventListener('sessionstart', () => {
     clearScene(scene);
 
     overlayContent.classList.remove('hidden');
+    debugInfo.innerHTML = "Debug Info";
 
     loadModel(scene, (objects) => {
 

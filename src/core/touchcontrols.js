@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 
+let debugInfo = document.getElementById("debug-text");
+
 export class TouchControls {
     constructor(renderer, scene, camera) {
         this.renderer = renderer;
@@ -13,7 +15,7 @@ export class TouchControls {
         this.wasScaling = false;
         this.sharedRotation = new THREE.Euler();
         this.sharedScale = new THREE.Vector3(1, 1, 1);
-        this.arSessionActive = false; // Track if AR session is active
+        this.arSessionActive = false;
 
         // Bind event handlers
         this.onTouchStart = this.onTouchStart.bind(this);
@@ -21,14 +23,21 @@ export class TouchControls {
         this.onTouchEnd = this.onTouchEnd.bind(this);
 
         // Add touch event listeners
-        this.renderer.domElement.addEventListener('touchstart', this.onTouchStart);
-        this.renderer.domElement.addEventListener('touchmove', this.onTouchMove);
-        this.renderer.domElement.addEventListener('touchend', this.onTouchEnd);
+        document.addEventListener('touchstart', this.onTouchStart);
+        document.addEventListener('touchmove', this.onTouchMove);
+        document.addEventListener('touchend', this.onTouchEnd);
     }
 
     // Enable/disable touch controls based on AR session state
     setARSessionActive(active) {
         this.arSessionActive = active;
+    }
+
+    // Log debug information to the overlay
+    logDebugInfo(message) {
+        if (debugInfo) {
+            debugInfo.innerHTML = message;
+        }
     }
 
     // Touch Start Event
@@ -44,6 +53,9 @@ export class TouchControls {
         const touch = event.touches[0];
         this.touchX = touch.clientX;
         this.touchY = touch.clientY;
+
+        // Log touch start event
+        this.logDebugInfo(`Touch Start: ${event.touches.length} touches`);
     }
 
     // Touch Move Event
@@ -72,6 +84,9 @@ export class TouchControls {
             if (spawnedModels.length > 0) {
                 this.sharedRotation.copy(spawnedModels[0].rotation);
             }
+
+            // Log rotation
+            this.logDebugInfo(`Rotation: Y=${this.sharedRotation.y.toFixed(2)}, X=${this.sharedRotation.x.toFixed(2)}`);
         }
 
         if (event.touches.length === 2 && this.touchStartDistance) {
@@ -89,6 +104,9 @@ export class TouchControls {
             });
 
             this.touchStartDistance = touchDistance;
+
+            // Log scaling
+            this.logDebugInfo(`Scaling: ${this.sharedScale.toArray().map(v => v.toFixed(2)).join(', ')}`);
         }
 
         this.touchX = currentTouchX;
@@ -104,5 +122,8 @@ export class TouchControls {
                 this.wasScaling = false;
             }, 100);
         }
+
+        // Log touch end event
+        this.logDebugInfo(`Touch End: ${event.touches.length} touches`);
     }
 }
