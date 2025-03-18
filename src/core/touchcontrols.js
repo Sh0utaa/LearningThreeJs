@@ -73,12 +73,21 @@ export class TouchControls {
         const deltaY = currentTouchY - (this.touchY || currentTouchY);
 
         if (event.touches.length === 1 && !this.wasScaling) {
-            // Rotate models based on touch movement
+            // Rotate models based on touch movement (relative to the camera)
             spawnedModels.forEach(model => {
-                const euler = new THREE.Euler().setFromQuaternion(model.quaternion, "YXZ");
-                euler.y += deltaX * 0.01; // Rotate around Y axis
-                euler.x += deltaY * 0.01; // Rotate around X axis
-                model.quaternion.setFromEuler(euler);
+                // Create a quaternion for the rotation
+                const quaternion = new THREE.Quaternion();
+
+                // Rotate around the camera's Y axis (horizontal movement)
+                const yAxis = new THREE.Vector3(0, 1, 0).applyQuaternion(this.camera.quaternion);
+                quaternion.setFromAxisAngle(yAxis, deltaX * 0.01);
+
+                // Rotate around the camera's X axis (vertical movement)
+                const xAxis = new THREE.Vector3(1, 0, 0).applyQuaternion(this.camera.quaternion);
+                quaternion.multiply(new THREE.Quaternion().setFromAxisAngle(xAxis, deltaY * 0.01));
+
+                // Apply the rotation to the model
+                model.quaternion.multiply(quaternion);
             });
 
             if (spawnedModels.length > 0) {
