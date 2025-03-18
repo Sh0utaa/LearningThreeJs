@@ -36,18 +36,17 @@ h1 {
 #debug-info {
     width: 100%; /* Full width */
     height: auto; /* Adjust height based on content */
-    background-color: white; /* White background */
+    background-color: rgba(0, 0, 0, 0.4); /* White background */
     position: fixed; /* Fix it to the bottom of the screen */
     bottom: 0; /* Position at the bottom */
     left: 0; /* Align to the left */
     padding: 10px; /* Add some padding */
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for better visibility */
     z-index: 1000; /* Ensure it's on top of other elements */
 }
 
 #debug-info p {
     margin: 0; /* Remove default margin */
     padding: 0; /* Remove default padding */
-    color: black; /* Ensure text is visible */
+    color: rgb(255, 255, 255); /* Ensure text is visible */
     font-size: 14px; /* Adjust font size */
 }
