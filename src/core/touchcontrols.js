@@ -14,7 +14,7 @@ export class TouchControls {
         this.touchY = null;
         this.wasScaling = false;
         this.sharedRotation = new THREE.Euler();
-        this.sharedScale = new THREE.Vector3(1, 1, 1);
+        this.sharedScale = new THREE.Vector3(0.25, 0.25, 0.25);
         this.arSessionActive = false;
 
         // Bind event handlers
