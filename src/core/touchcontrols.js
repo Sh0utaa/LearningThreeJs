@@ -60,42 +60,53 @@ export class TouchControls {
 
     // Touch Move Event
     onTouchMove(event) {
-        if (!this.arSessionActive) return; // Only work during AR session
+        if (!this.arSessionActive) return;
 
-        const spawnedModels = this.scene.children.filter(child => child.isObject3D && child.userData.isARObject); // Only interact with AR objects
-
+        const spawnedModels = this.scene.children.filter(child => 
+            child.isObject3D && child.userData.isARObject
+        );
+    
         if (spawnedModels.length === 0) return;
-
+    
         const touch = event.changedTouches[0];
         const currentTouchX = touch.clientX;
         const currentTouchY = touch.clientY;
-        const deltaX = currentTouchX - (this.touchX || currentTouchX);
-        const deltaY = currentTouchY - (this.touchY || currentTouchY);
-
+        
+        // Always use current touch position (no delta accumulation)
+        const deltaX = currentTouchX - this.touchX;
+        const deltaY = currentTouchY - this.touchY;
+    
         if (event.touches.length === 1 && !this.wasScaling) {
-            // Rotate models based on touch movement (relative to the camera)
+            // Fixed rotation speed (adjust this number)
+            const rotationSpeed = 0.0075;
+    
+            // Calculate center point
+            const center = new THREE.Vector3();
+            spawnedModels.forEach(model => center.add(model.position));
+            center.divideScalar(spawnedModels.length);
+    
+            // Immediate rotation response
+            const yRotation = new THREE.Quaternion().setFromAxisAngle(
+                new THREE.Vector3(0, 1, 0).applyQuaternion(this.camera.quaternion),
+                deltaX * rotationSpeed
+            );
+            
+            const xRotation = new THREE.Quaternion().setFromAxisAngle(
+                new THREE.Vector3(1, 0, 0).applyQuaternion(this.camera.quaternion),
+                deltaY * rotationSpeed
+            );
+    
+            // Apply to all models
             spawnedModels.forEach(model => {
-                // Create a quaternion for the rotation
-                const quaternion = new THREE.Quaternion();
-
-                // Rotate around the camera's Y axis (horizontal movement)
-                const yAxis = new THREE.Vector3(0, 1, 0).applyQuaternion(this.camera.quaternion);
-                quaternion.setFromAxisAngle(yAxis, deltaX * 0.01);
-
-                // Rotate around the camera's X axis (vertical movement)
-                const xAxis = new THREE.Vector3(1, 0, 0).applyQuaternion(this.camera.quaternion);
-                quaternion.multiply(new THREE.Quaternion().setFromAxisAngle(xAxis, deltaY * 0.01));
-
-                // Apply the rotation to the model
-                model.quaternion.multiply(quaternion);
+                model.position.sub(center);
+                model.position.applyQuaternion(yRotation.multiply(xRotation));
+                model.quaternion.multiply(yRotation).multiply(xRotation);
+                model.position.add(center);
             });
-
-            if (spawnedModels.length > 0) {
-                this.sharedRotation.copy(spawnedModels[0].rotation);
-            }
-
-            // Log rotation
-            this.logDebugInfo(`Rotation: Y=${this.sharedRotation.y.toFixed(2)}, X=${this.sharedRotation.x.toFixed(2)}`);
+    
+            // Update touch position for next frame
+            this.touchX = currentTouchX;
+            this.touchY = currentTouchY;
         }
 
         if (event.touches.length === 2 && this.touchStartDistance) {
