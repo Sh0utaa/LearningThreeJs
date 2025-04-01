@@ -78,35 +78,34 @@ export class TouchControls {
     
         if (event.touches.length === 1 && !this.wasScaling) {
             // Fixed rotation speed (adjust this number)
-            const rotationSpeed = 0.0075;
-    
+            const rotationSpeed = 0.01;
+
             // Calculate center point
             const center = new THREE.Vector3();
             spawnedModels.forEach(model => center.add(model.position));
             center.divideScalar(spawnedModels.length);
-    
-            // Immediate rotation response
-            const yRotation = new THREE.Quaternion().setFromAxisAngle(
-                new THREE.Vector3(0, 1, 0).applyQuaternion(this.camera.quaternion),
-                deltaX * rotationSpeed
-            );
             
-            const xRotation = new THREE.Quaternion().setFromAxisAngle(
-                new THREE.Vector3(1, 0, 0).applyQuaternion(this.camera.quaternion),
-                deltaY * rotationSpeed
-            );
-    
-            // Apply to all models
+            // Use more natural axes: Y for horizontal drags, X for vertical drags
+            const xAxis = new THREE.Vector3(1, 0, 0);  // Rotate around X (vertical drags)
+            const yAxis = new THREE.Vector3(0, 1, 0);  // Rotate around Y (horizontal drags)
+            
+            const xRotation = new THREE.Quaternion().setFromAxisAngle(xAxis, deltaY * rotationSpeed);
+            const yRotation = new THREE.Quaternion().setFromAxisAngle(yAxis, deltaX * rotationSpeed);
+            
+            const totalRotation = new THREE.Quaternion();
+            totalRotation.multiplyQuaternions(yRotation, xRotation);
+            
             spawnedModels.forEach(model => {
                 model.position.sub(center);
-                model.position.applyQuaternion(yRotation.multiply(xRotation));
-                model.quaternion.multiply(yRotation).multiply(xRotation);
+                
+                // Apply the correct rotation order
+                model.position.applyQuaternion(totalRotation);
+                
                 model.position.add(center);
+            
+                // Rotate the model itself to match the orbiting motion
+                model.quaternion.multiplyQuaternions(totalRotation, model.quaternion);
             });
-    
-            // Update touch position for next frame
-            this.touchX = currentTouchX;
-            this.touchY = currentTouchY;
         }
 
         if (event.touches.length === 2 && this.touchStartDistance) {
