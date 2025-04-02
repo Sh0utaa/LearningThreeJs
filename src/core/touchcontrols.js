@@ -40,9 +40,50 @@ export class TouchControls {
         }
     }
 
+    getTouchedObject(event) {
+        const touch = event.touches[0]; // Get first touch
+        const touchX = (touch.clientX / window.innerWidth) * 2 - 1;
+        const touchY = -(touch.clientY / window.innerHeight) * 2 + 1;
+    
+        // Raycaster setup
+        const raycaster = new THREE.Raycaster();
+        const touchPoint = new THREE.Vector2(touchX, touchY);
+        raycaster.setFromCamera(touchPoint, this.camera);
+    
+        // Check all objects in the scene
+        const intersects = raycaster.intersectObjects(this.scene.children, true);
+    
+        if (intersects.length > 0) {
+            return intersects[0].object;
+        }
+        return null;
+    }
+
     // Touch Start Event
     onTouchStart(event) {
-        if (!this.arSessionActive) return; // Only work during AR session
+        if (!this.arSessionActive) return;
+
+        const touchedObject = this.getTouchedObject(event);
+
+        if (touchedObject) {
+            this.scene.children.forEach(object => {
+                if (object.isMesh) {
+                    object.material.transparent = true;
+                    object.material.opacity = (object === touchedObject) ? 1.0 : 0.3;
+                }
+            });
+    
+            this.logDebugInfo(`Touching: ${touchedObject.name}`);
+        } else {
+            this.scene.children.forEach(object => {
+                if (object.isMesh) {
+                    object.material.transparent = false;
+                    object.material.opacity = 1.0;
+                }
+            });
+    
+            this.logDebugInfo(`Touching: Nothing`);
+        }
 
         if (event.touches.length === 2) {
             const dx = event.touches[0].clientX - event.touches[1].clientX;
@@ -55,7 +96,7 @@ export class TouchControls {
         this.touchY = touch.clientY;
 
         // Log touch start event
-        this.logDebugInfo(`Touch Start: ${event.touches.length} touches`);
+        // this.logDebugInfo(`Touch Start: ${event.touches.length} touches`);
     }
 
     // Touch Move Event

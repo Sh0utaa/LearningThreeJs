@@ -10,6 +10,7 @@ function loadModel(scene, onModelLoaded) {
     const tetrahedonMesh = new THREE.MeshStandardMaterial({ color: 0x800080})
     const tetrahedron = new THREE.Mesh(tetrahedronGeometry, tetrahedonMesh);
     tetrahedron.position.set(0, 0.5, 0);
+    tetrahedron.name = "Tetrahedron"
     scene.add(tetrahedron);
 
     // Create cube and sphere
@@ -17,12 +18,14 @@ function loadModel(scene, onModelLoaded) {
     const cubeMesh = new THREE.MeshStandardMaterial({ color: 0x2bff55 });
     const cube = new THREE.Mesh(cubeGeometry, cubeMesh);
     cube.position.set(-2, 0.5, 0);
+    cube.name = "Cube"
     scene.add(cube);
 
     const sphereGeometry = new THREE.SphereGeometry(0.7, 32, 32);
     const sphereMaterial = new THREE.MeshStandardMaterial({ color: 0x0000ff });
     const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
     sphere.position.set(2, 0.5, 0);
+    sphere.name = "Sphere"
     scene.add(sphere);
     
     const objects = {
