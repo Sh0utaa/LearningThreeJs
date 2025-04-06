@@ -151,23 +151,36 @@ export class TouchControls {
 
         if (event.touches.length === 2 && this.touchStartDistance) {
             this.wasScaling = true;
-
+        
             const dx = event.touches[0].clientX - event.touches[1].clientX;
             const dy = event.touches[0].clientY - event.touches[1].clientY;
             const touchDistance = Math.sqrt(dx * dx + dy * dy);
             const scaleFactor = touchDistance / this.touchStartDistance;
-
+        
+            // Update the global scale vector
             this.sharedScale.multiplyScalar(scaleFactor);
-
+        
+            // Calculate center of all models
+            const center = new THREE.Vector3();
+            spawnedModels.forEach(model => center.add(model.position));
+            center.divideScalar(spawnedModels.length);
+        
             spawnedModels.forEach(model => {
+                // Move relative to center
+                model.position.sub(center);
+                model.position.multiplyScalar(scaleFactor); // Scale position to shrink/grow relative to center
+                model.position.add(center);
+        
+                // Apply scale
                 model.scale.copy(this.sharedScale);
             });
-
+        
             this.touchStartDistance = touchDistance;
-
+        
             // Log scaling
             this.logDebugInfo(`Scaling: ${this.sharedScale.toArray().map(v => v.toFixed(2)).join(', ')}`);
         }
+        
 
         this.touchX = currentTouchX;
         this.touchY = currentTouchY;
