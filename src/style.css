@@ -1,4 +1,5 @@
-* {
+/* WebAR -- OLD CODE */
+/* * {
     font-family: "Playwrite HU", cursive;
     margin: 0;
     padding: 0;
@@ -16,7 +17,7 @@
     left: 50%;
     transform: translateX(-50%);
     padding: 0;
-    white-space: nowrap;  /* Prevent line breaks */
+    white-space: nowrap;
 }
 
 body {
@@ -56,12 +57,18 @@ h1 {
 }
 
 #exit-ar-button {
-    background-color: rgba(0, 0, 0, 0.75); /* Red background */
-    color: white; /* White text */
+    background-color: rgba(0, 0, 0, 0.75); 
+    color: white;
     border: none;
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
     border-radius: 5px;
-    margin-top: 10px; /* Add some spacing */
+    margin-top: 10px; 
 }
+ */
+
+
+ /* WEBGL -- NEW CODE */
+
+ 
