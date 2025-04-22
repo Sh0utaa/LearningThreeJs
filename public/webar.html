@@ -5,7 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="./public/assets/FerrariLogo.jpg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Shota Tevdorashvili ThreeJS</title>
-    <link rel="stylesheet" href="./src/style.css">
+    <link rel="stylesheet" href="../src/WebAR/markup/styles.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,12 +13,17 @@
   </head>
   <body>
     <main>
-      <div class="nav-container">
-        <a class="nav-link" href="/webar.html">WebAR</a>
-        <a class="nav-link" href="/public/TaskST012.html">TaskST012</a>
-        <a class="nav-link" href="/public/TaskST013.html">TaskST013</a>
-        <a class="nav-link" href="/public/TaskST014.html">Current Task</a>
+
+      <div id="container3D">
+        <h1 id="overlay-content" >TASK ST 010</h1>
+
+        <div id="debug-info" class="hidden">
+          <p id="debug-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, sequi! Delectus numquam laudantium laboriosam distinctio repellendus dolorem labore odit, quae inventore, animi enim? Eum assumenda libero voluptatem nemo soluta necessitatibus.</p>
+          <button id="exit-ar-button">Exit</button>
+        </div>
       </div>
+
     </main>
+        <script type="module" src="../src/WebAR/main.js"></script>
   </body>
 </html>

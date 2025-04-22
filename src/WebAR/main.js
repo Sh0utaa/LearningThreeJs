@@ -1,9 +1,9 @@
 import { ARButton } from "three/examples/jsm/Addons.js";
-import { scene, camera, renderer } from './core/scene.js';
-import { setupLights } from './core/lights.js';
-import { loadModel } from './core/loader.js'
-import { setupPostProcessing } from "./core/renderer.js";
-import { setupOrbitControls } from './core/controls.js';
+import { scene, camera, renderer } from './scene.js';
+import { setupLights } from './lights.js';
+import { loadModel } from './loader.js'
+import { setupPostProcessing } from "./renderer.js";
+import { setupOrbitControls } from './controls.js';
 
 let overlayContent = document.getElementById("debug-info");
 

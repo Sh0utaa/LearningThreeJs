@@ -1,84 +1,36 @@
-/* WebAR -- OLD CODE */
-/* * {
-    font-family: "Playwrite HU", cursive;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-#container3D {
-    position: relative;
-    width: 100%;
-}
-
-#container3D h1 {
-    position: absolute;
-    top: 10%;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 0;
-    white-space: nowrap;
-}
-
 body {
-    background-color: black;
-}
-
-h1 {
-    color: white;
-    text-align: center;
-    margin-top: 10px;
-}
-
-.hidden {
-    display: none;
-}
-
-#debug-info {
-    width: 100%;
-    height: auto;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    padding: 10px;
-    z-index: 1000;
-}
-
-#debug-info p {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-
-    margin: 0; 
-    padding: 0;
-    color: rgb(255, 255, 255); 
-    font-size: 14px;
-    background-color: rgba(0, 0, 0, 0.75);
-}
-
-#exit-ar-button {
-    background-color: rgba(0, 0, 0, 0.75); 
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    margin-top: 10px; 
-}
- */
-
-
- /* WEBGL -- NEW CODE */
- body {
-    margin: 0;
-    overflow: hidden;
-  }
-  
-  canvas {
-    display: block;
-    width: 100vw;
+    font-family: 'Segoe UI', sans-serif;
+    background: #121212;
+    color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 100vh;
+    margin: 0;
   }
   
- 
+  .nav-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 40px;
+    background: #1e1e1e;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+  }
+  
+  .nav-link {
+    text-decoration: none;
+    color: #ffffff;
+    padding: 10px 20px;
+    background-color: #3b82f6;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+    text-align: center;
+    font-weight: 500;
+  }
+  
+  .nav-link:hover {
+    background-color: #2563eb;
+  }
+  
