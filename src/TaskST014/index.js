@@ -146,55 +146,68 @@ function boxToBoxCollision(box1, box2) {
   );
 }
 
+
 // Collision state tracking
 let isBoxSphereColliding = false;
 let isBoxConeColliding = false;
 let isSphereConeColliding = false;
 
+function checkCollisions() {
+  const boxSphereCollision = boxToSphereCollision(box, sphere);
+  const boxConeCollision = boxToBoxCollision(box, cone);
+  const sphereConeCollision = coneToSphereCollision(cone, sphere);
+
+  if (boxSphereCollision !== isBoxSphereColliding) {
+    isBoxSphereColliding = boxSphereCollision;
+    box.material.color.setHex(isBoxSphereColliding ? 0xff0000 : box.userData.originalColor);
+    sphere.material.color.setHex(isBoxSphereColliding ? 0xff0000 : sphere.userData.originalColor);
+    if (isBoxSphereColliding) console.log("Box and Sphere collided!");
+  }
+
+  if (boxConeCollision !== isBoxConeColliding) {
+    isBoxConeColliding = boxConeCollision;
+    box.material.color.setHex(isBoxConeColliding ? 0xff0000 : box.userData.originalColor);
+    cone.material.color.setHex(isBoxConeColliding ? 0xff0000 : cone.userData.originalColor);
+    if (isBoxConeColliding) console.log("Box and Cone collided!");
+  }
+
+  if (sphereConeCollision !== isSphereConeColliding) {
+    isSphereConeColliding = sphereConeCollision;
+    sphere.material.color.setHex(isSphereConeColliding ? 0xff0000 : sphere.userData.originalColor);
+    cone.material.color.setHex(isSphereConeColliding ? 0xff0000 : cone.userData.originalColor);
+    if (isSphereConeColliding) console.log("Sphere and Cone collided!");
+  }
+}
+
 let paused = false;
 let t = 0;
+const maxT = 1000; // Range max
+const slider = document.getElementById('timeline');
+
+slider.addEventListener('input', () => {
+  t = slider.value / 100;
+  updateScene(t);
+  checkCollisions();
+});
+
+function updateScene(t) {
+  box.position.x = Math.cos(t) * 2;
+  sphere.position.set(Math.cos(t) * 2, 0, Math.sin(t) * 2);
+  cone.position.set(Math.cos(t) * 1.5, Math.sin(t * 2) * 1, Math.sin(t) * 1.5);
+}
 
 function animate() {
   requestAnimationFrame(animate);
 
   if (!paused) {
     t += 0.01;
-
-    // Update object positions
-    box.position.x = Math.cos(t) * 2;
-    sphere.position.set(Math.cos(t) * 2, 0, Math.sin(t) * 2);
-    cone.position.set(Math.cos(t) * 1.5, Math.sin(t * 2) * 1, Math.sin(t) * 1.5);
-
-    // Check collisions
-    const boxSphereCollision = boxToSphereCollision(box, sphere);
-    const boxConeCollision = boxToBoxCollision(box, cone); // Simplified
-    const sphereConeCollision = coneToSphereCollision(cone, sphere);
-
-    // Handle collision changes
-    if (boxSphereCollision !== isBoxSphereColliding) {
-      isBoxSphereColliding = boxSphereCollision;
-      box.material.color.setHex(isBoxSphereColliding ? 0xff0000 : box.userData.originalColor);
-      sphere.material.color.setHex(isBoxSphereColliding ? 0xff0000 : sphere.userData.originalColor);
-      if (isBoxSphereColliding) console.log("Box and Sphere collided!");
-    }
-
-    if (boxConeCollision !== isBoxConeColliding) {
-      isBoxConeColliding = boxConeCollision;
-      box.material.color.setHex(isBoxConeColliding ? 0xff0000 : box.userData.originalColor);
-      cone.material.color.setHex(isBoxConeColliding ? 0xff0000 : cone.userData.originalColor);
-      if (isBoxConeColliding) console.log("Box and Cone collided!");
-    }
-
-    if (sphereConeCollision !== isSphereConeColliding) {
-      isSphereConeColliding = sphereConeCollision;
-      sphere.material.color.setHex(isSphereConeColliding ? 0xff0000 : sphere.userData.originalColor);
-      cone.material.color.setHex(isSphereConeColliding ? 0xff0000 : cone.userData.originalColor);
-      if (isSphereConeColliding) console.log("Sphere and Cone collided!");
-    }
+    slider.value = t * 100;
+    updateScene(t);
+    checkCollisions();
   }
 
-  controls.update(); // Always allow camera movement
-  renderer.render(scene, camera); // Always render scene
+  controls.update();
+  renderer.render(scene, camera);
 }
 
 animate();

@@ -29,5 +29,12 @@
   #toggleBtn:hover {
     background: #2563eb;
   }
-  
+
+  #timeline {
+    position: absolute;
+    bottom: 30px;
+    left: 150px;
+    width: 300px;
+    z-index: 10;
+  }
   
