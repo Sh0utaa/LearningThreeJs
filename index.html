@@ -5,7 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="./public/assets/FerrariLogo.jpg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Shota Tevdorashvili ThreeJS</title>
-    <link rel="stylesheet" href="/index.css">
+    <link rel="stylesheet" href="./src/TaskST014/styles.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,13 +13,19 @@
   </head>
   <body>
     <main>
-      <div class="nav-container">
-        <a class="nav-link" href="/webar.html">WebAR</a>
+      <!-- <div class="nav-container"> -->
+        <!-- <a class="nav-link" href="/webar.html">WebAR</a>
         <a class="nav-link" href="/TaskST011.html">TaskST011</a>
         <a class="nav-link" href="/TaskST012.html">TaskST012</a>
         <a class="nav-link" href="/TaskST013.html">TaskST013</a>
-        <a class="nav-link" href="/TaskST014.html">Current Task</a>
-      </div>
+        <a class="nav-link" href="/TaskST014.html">Current Task</a> -->
+      <!-- </div> -->
+      <button id="toggleBtn">
+        Pause
+    </button>
+    <input type="range" id="timeline" min="0" max="1000" value="0" step="1">
     </main>
   </body>
+
+  <script type="module" src="./src/TaskST014/index.js"></script>
 </html>
