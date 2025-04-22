@@ -85,6 +85,13 @@ function boxToSphereCollision(box, sphere) {
   return distance < sphereRadius;
 }
 
+const toggleBtn = document.getElementById('toggleBtn');
+toggleBtn.addEventListener('click', () => {
+  paused = !paused;
+  toggleBtn.textContent = paused ? 'Play' : 'Pause';
+});
+
+
 function sphereToSphereCollision(sphere1, sphere2) {
   const distance = sphere1.position.distanceTo(sphere2.position);
   return distance < (sphere1.userData.radius + sphere2.userData.radius);
@@ -144,46 +151,50 @@ let isBoxSphereColliding = false;
 let isBoxConeColliding = false;
 let isSphereConeColliding = false;
 
+let paused = false;
 let t = 0;
 
 function animate() {
   requestAnimationFrame(animate);
-  t += 0.01;
 
-  // Update positions
-  box.position.x = Math.cos(t) * 2;
-  sphere.position.set(Math.cos(t) * 2, 0, Math.sin(t) * 2);
-  cone.position.set(Math.cos(t) * 1.5, Math.sin(t * 2) * 1, Math.sin(t) * 1.5);
+  if (!paused) {
+    t += 0.01;
 
-  // Check collisions
-  const boxSphereCollision = boxToSphereCollision(box, sphere);
-  const boxConeCollision = boxToBoxCollision(box, cone); // Simplified for demo
-  const sphereConeCollision = coneToSphereCollision(cone, sphere);
+    // Update object positions
+    box.position.x = Math.cos(t) * 2;
+    sphere.position.set(Math.cos(t) * 2, 0, Math.sin(t) * 2);
+    cone.position.set(Math.cos(t) * 1.5, Math.sin(t * 2) * 1, Math.sin(t) * 1.5);
 
-  // Handle collisions
-  if (boxSphereCollision !== isBoxSphereColliding) {
-    isBoxSphereColliding = boxSphereCollision;
-    box.material.color.setHex(isBoxSphereColliding ? 0xff0000 : box.userData.originalColor);
-    sphere.material.color.setHex(isBoxSphereColliding ? 0xff0000 : sphere.userData.originalColor);
-    if (isBoxSphereColliding) console.log("Box and Sphere collided!");
+    // Check collisions
+    const boxSphereCollision = boxToSphereCollision(box, sphere);
+    const boxConeCollision = boxToBoxCollision(box, cone); // Simplified
+    const sphereConeCollision = coneToSphereCollision(cone, sphere);
+
+    // Handle collision changes
+    if (boxSphereCollision !== isBoxSphereColliding) {
+      isBoxSphereColliding = boxSphereCollision;
+      box.material.color.setHex(isBoxSphereColliding ? 0xff0000 : box.userData.originalColor);
+      sphere.material.color.setHex(isBoxSphereColliding ? 0xff0000 : sphere.userData.originalColor);
+      if (isBoxSphereColliding) console.log("Box and Sphere collided!");
+    }
+
+    if (boxConeCollision !== isBoxConeColliding) {
+      isBoxConeColliding = boxConeCollision;
+      box.material.color.setHex(isBoxConeColliding ? 0xff0000 : box.userData.originalColor);
+      cone.material.color.setHex(isBoxConeColliding ? 0xff0000 : cone.userData.originalColor);
+      if (isBoxConeColliding) console.log("Box and Cone collided!");
+    }
+
+    if (sphereConeCollision !== isSphereConeColliding) {
+      isSphereConeColliding = sphereConeCollision;
+      sphere.material.color.setHex(isSphereConeColliding ? 0xff0000 : sphere.userData.originalColor);
+      cone.material.color.setHex(isSphereConeColliding ? 0xff0000 : cone.userData.originalColor);
+      if (isSphereConeColliding) console.log("Sphere and Cone collided!");
+    }
   }
 
-  if (boxConeCollision !== isBoxConeColliding) {
-    isBoxConeColliding = boxConeCollision;
-    box.material.color.setHex(isBoxConeColliding ? 0xff0000 : box.userData.originalColor);
-    cone.material.color.setHex(isBoxConeColliding ? 0xff0000 : cone.userData.originalColor);
-    if (isBoxConeColliding) console.log("Box and Cone collided!");
-  }
-
-  if (sphereConeCollision !== isSphereConeColliding) {
-    isSphereConeColliding = sphereConeCollision;
-    sphere.material.color.setHex(isSphereConeColliding ? 0xff0000 : sphere.userData.originalColor);
-    cone.material.color.setHex(isSphereConeColliding ? 0xff0000 : cone.userData.originalColor);
-    if (isSphereConeColliding) console.log("Sphere and Cone collided!");
-  }
-
-  controls.update();
-  renderer.render(scene, camera);
+  controls.update(); // Always allow camera movement
+  renderer.render(scene, camera); // Always render scene
 }
 
 animate();
