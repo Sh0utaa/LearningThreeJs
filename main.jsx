@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 // Import your components
-import TaskST011 from './TaskST011/TaskST011'
-import TaskST012 from './TaskST012/TaskST012'
-import TaskST013 from './TaskST013/TaskST013'
-import TaskST014 from "./TaskST014/TaskST014"
+import TaskST011 from './src/TaskST011/TaskST011'
+import TaskST012 from './src/TaskST012/TaskST012'
+import TaskST013 from './src/TaskST013/TaskST013'
+import TaskST014 from "./src/TaskST014/TaskST014"
 // Add more as needed
 
 const App = () => (
