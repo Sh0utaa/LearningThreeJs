@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite';
-// import react from '@vitejs/plugin-react'
+import React from 'react'
 
 export default defineConfig({
   server: {
@@ -10,10 +10,10 @@ export default defineConfig({
       "6b06-149-3-101-219.ngrok-free.app",
     ],
     
-    // plugins: [react()],
-    // server: {
-    //   open: true,
-    // }
-    
+    plugins: [react()],
+    server: {
+      open: true,
+    },
+    base: "/", // or your custom subpath if you're using one
   },
 });
