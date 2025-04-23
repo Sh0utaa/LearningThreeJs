@@ -33,4 +33,24 @@ body {
   .nav-link:hover {
     background-color: #2563eb;
   }
+
+  nav ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  nav li {
+    margin: 8px 0;
+  }
+  
+  nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 25px;
+  }
+  
+  nav a:hover {
+    text-decoration: underline;
+  }
   
