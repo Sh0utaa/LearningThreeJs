@@ -21,10 +21,19 @@ const App = () => (
           <div>
             <nav>
               <ul>
-                <li><Link to="/task011">Task 011</Link></li>
-                <li><Link to="/task012">Task 012</Link></li>
-                <li><Link to="/task013">Task 013</Link></li>
-                <li><Link to="/task014">Task 014</Link></li>
+                <li>
+                  {/* <Link to="/task011">Task 011</Link> */}
+                  <a href="/task011">Task011</a>
+                </li>
+                <li>
+                <a href="/task012">Task012</a>
+                </li>
+                <li>
+                  <a href="/task013">Task013</a>
+                </li>
+                <li>
+                  <a href="/task014">Task014</a>
+                </li>
               </ul>
             </nav>
           </div>
