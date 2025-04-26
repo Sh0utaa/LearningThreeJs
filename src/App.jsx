@@ -7,6 +7,7 @@ import TaskST011 from './TaskST011/TaskST011';
 import TaskST012 from './TaskST012/TaskST012';
 import TaskST013 from './TaskST013/TaskST013';
 import TaskST014 from './TaskST014/TaskST014';
+import TaskST016 from './TaskST016/TaskST016';
 
 const App = () => (
   <BrowserRouter>
@@ -15,6 +16,7 @@ const App = () => (
       <Route path="/task012" element={<TaskST012 />} />
       <Route path="/task013" element={<TaskST013 />} />
       <Route path="/task014" element={<TaskST014 />} />
+      <Route path='/task016' element={<TaskST016 />} />
       <Route
         path="*"
         element={
@@ -33,6 +35,9 @@ const App = () => (
                 </li>
                 <li>
                   <a href="/task014">Task014</a>
+                </li>
+                <li>
+                  <a href="/task016">Task016</a>
                 </li>
               </ul>
             </nav>
