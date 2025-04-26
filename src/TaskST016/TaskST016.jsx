@@ -3,7 +3,7 @@ import * as THREE from "three";
 import React from 'react'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
-export default function SphereScene() {
+export default function TaskST016() {
   const mountRef = useRef(null);
 
   useEffect(() => {
@@ -11,6 +11,7 @@ export default function SphereScene() {
     const height = mountRef.current.clientHeight;
 
     const earthTexture = new THREE.TextureLoader().load('/assets/earth.jpg')
+    const moonTexture = new THREE.TextureLoader().load('/assets/moon.jfif')
 
     // Scene
     const scene = new THREE.Scene();
@@ -26,11 +27,24 @@ export default function SphereScene() {
 
     const controls = new OrbitControls(camera, renderer.domElement)
 
-    // Sphere
-    const geometry = new THREE.SphereGeometry(1, 32, 32);
-    const material = new THREE.MeshStandardMaterial({ map: earthTexture  });
-    const sphere = new THREE.Mesh(geometry, material);
-    scene.add(sphere);
+    // Earth (already exists)
+    const earthGeometry = new THREE.SphereGeometry(1, 48, 48);
+    const earthMaterial = new THREE.MeshStandardMaterial({ map: earthTexture });
+    const earth = new THREE.Mesh(earthGeometry, earthMaterial);
+    scene.add(earth);
+
+    const axesHelper = new THREE.AxesHelper(3.5); // 2 is the length of each axis line
+    earth.add(axesHelper);
+
+    // Moon
+    const moonGeometry = new THREE.SphereGeometry(0.27, 32, 32); // Make moon smaller
+    const moonMaterial = new THREE.MeshStandardMaterial({ map: moonTexture });
+    const moon = new THREE.Mesh(moonGeometry, moonMaterial);
+    scene.add(moon);
+
+    let moonOrbitRadius = 3.5; // Distance from earth
+    let moonOrbitSpeed = 0.01; // Orbit speed
+    let moonAngle = 0;         // Current orbit angle
 
     // Light
     const light = new THREE.DirectionalLight(0xffffff, 1);
@@ -40,6 +54,13 @@ export default function SphereScene() {
     // Animation loop
     const animate = () => {
       requestAnimationFrame(animate);
+      earth.rotation.y += 0.001; // Earth slow rotation
+
+      // Moon orbit calculation
+      moonAngle += moonOrbitSpeed;
+      moon.position.x = Math.cos(moonAngle) * moonOrbitRadius;
+      moon.position.z = Math.sin(moonAngle) * moonOrbitRadius;
+
       renderer.render(scene, camera);
     };
     animate();
