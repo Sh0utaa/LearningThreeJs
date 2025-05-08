@@ -39,6 +39,9 @@ const App = () => (
                 <li>
                   <a href="/task016">Task016</a>
                 </li>
+                <li>
+                  <a href="https://web-ar-three-js.vercel.app">Web AR</a>
+                </li>
               </ul>
             </nav>
           </div>
